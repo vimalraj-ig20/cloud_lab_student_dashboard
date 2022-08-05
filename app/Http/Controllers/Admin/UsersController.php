@@ -10,6 +10,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUsersRequest;
 use App\Http\Requests\Admin\UpdateUsersRequest;
 
+
+//
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
+// use App\Http\Controllers\UsersController;
+
+//
+
 class UsersController extends Controller
 {
     /**
@@ -140,5 +148,14 @@ class UsersController extends Controller
 
         return response()->noContent();
     }
+
+    // import own
+    public function import() 
+    {
+        Excel::import(new UsersImport, 'users.xlsx');
+        
+        return redirect('/')->with('success', 'All good!');
+    }
+
 
 }

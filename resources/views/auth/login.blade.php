@@ -57,6 +57,7 @@
                                     Login to cloud lab
                                 </button>
                             </div>
+                            
                             <div class="col-6 text-right">
                                 <a class="btn btn-link px-0" href="{{ route('password.request') }}">
                                     Forgot your password?

@@ -1,47 +1,56 @@
 @extends('layouts.admin')
 @section('content')
-@can('users_manage')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.users.create") }}">
-                <!-- {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }} -->
-                Add cloud Users
-
-            </a>
-        </div>
+<div style="margin-bottom: 10px;" class="row">
+    <div class="col-lg-12">
+        <a class="btn btn-success" href="{{ route("admin.students.create") }}">
+            <!-- {{ trans('global.add') }} {{ trans('cruds.student.title_singular') }} -->
+            Add cloud Student
+        </a>
     </div>
-@endcan
-
+</div>
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.user.title_singular') }} {{ trans('global.list') }}
+        <!-- {{ trans('cruds.student.title_singular') }} {{ trans('global.list') }} -->
+         Cloud students
     </div>
-        <form action ="users/import" method ="post" enctype="multipart/form-data">
+    <!-- <form action ="users/import" method ="post" enctype="multipart/form-data">
             @csrf 
             <div class="form-group">
                 <input type="file" name="file" />
-                <button type="submit" class="btn btn-primary">Import</button>
+                <button type="submit" class="btn btn-primary">Import Achievements</button>
             </div>
-        </form>
+        </form> -->
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-student">
                 <thead>
                     <tr>
-                        <th width="10">
+                        <th width="2">
 
                         </th>
-                        <th>
-                            {{ trans('cruds.user.fields.id') }}
+                        <th width="2">
+                           id
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.name') }}
+                            Roll_no
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.email') }}
+                            Name
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.roles') }}
+                            Email
+                        </th>
+                        <th>
+                            Department
+                        </th>
+                        <th>
+                            ph_no
+                        </th>
+                        <th>
+                            mentor
+                        </th>
+                        <th>
+                            mentor_no
                         </th>
                         <th>
                             &nbsp;
@@ -49,40 +58,54 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $key => $user)
-                        <tr data-entry-id="{{ $user->id }}">
+                    @foreach($students ?? '' as $key => $student)
+                        <tr data-entry-id="{{ $student->id }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $user->id ?? '' }}
+                                {{ $student->id ?? '' }}
                             </td>
                             <td>
-                                {{ $user->name ?? '' }}
+                                {{ $student->roll_no ?? '' }}
                             </td>
                             <td>
-                                {{ $user->email ?? '' }}
+                                {{ $student->name ?? '' }}
                             </td>
                             <td>
-                                @foreach($user->roles()->pluck('name') as $role)
-                                    <span class="badge badge-info">{{ $role }}</span>
+                                {{ $student->email ?? '' }}
+                            </td>
+                            <td>
+                                {{ $student->department ?? '' }}
+                            </td>
+                            <td>
+                                {{ $student->ph_no ?? '' }}
+                            </td>
+                            <td>
+                                {{ $student->mentor ?? '' }}
+                            </td>
+                            <td>
+                                {{ $student->mentor_no ?? '' }}
+                            </td>
+                            <!-- <td>
+                                @foreach($student->permissions()->pluck('name') as $permission)
+                                    <span class="badge badge-info">{{ $permission }}</span>
                                 @endforeach
-                            </td>
+                            </td> -->
                             <td>
-                                <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}">
+                                <a class="btn btn-xs btn-primary" href="{{ route('admin.students.show', $student->id) }}">
                                     {{ trans('global.view') }}
                                 </a>
 
-                                <a class="btn btn-xs btn-info" href="{{ route('admin.users.edit', $user->id) }}">
+                                <a class="btn btn-xs btn-info" href="{{ route('admin.students.edit', $student->id) }}">
                                     {{ trans('global.edit') }}
                                 </a>
 
-                                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                <form action="{{ route('admin.students.destroy', $student->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                 </form>
-
                             </td>
 
                         </tr>
@@ -100,11 +123,10 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('users_manage')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.users.mass_destroy') }}",
+    url: "{{ route('admin.students.mass_destroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -128,13 +150,12 @@
     }
   }
   dtButtons.push(deleteButton)
-@endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-User:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-student:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();

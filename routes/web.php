@@ -1,4 +1,8 @@
 <?php
+ 
+use App\Http\Controllers\StudentController;
+
+
 Route::redirect('/', 'admin/home');
 
 Auth::routes(['register' => false]);
@@ -15,4 +19,27 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::delete('roles_mass_destroy', 'Admin\RolesController@massDestroy')->name('roles.mass_destroy');
     Route::resource('users', 'Admin\UsersController');
     Route::delete('users_mass_destroy', 'Admin\UsersController@massDestroy')->name('users.mass_destroy');
+
+
+
+    Route::resource('students', 'StudentController');
+    Route::delete('students_mass_destroy', 'App\Http\Controllers\StudentController@massDestroy')->name('students.mass_destroy');
+    
+    //new
+    // Route::resource('students', 'Admin\StudentController');
+    // Route::delete('users_mass_destroy', 'Admin\StudentCsontroller@massDestroy')->name('students.mass_destroy');
+    // Route::get("/students",function()){
+    //     return view{'admin/students/index'};
+    // }
+
+    Route::get('/users/import', 'UsersImportController@show');
+    Route::post('/users/import', 'UsersImportController@store');
+
+
+    Route::resource('Achievements', 'Achievements');
+    Route::delete('students_mass_destroy', 'App\Http\Controllers\StudentController@massDestroy')->name('students.mass_destroy');
+    
+
+
+
 });

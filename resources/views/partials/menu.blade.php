@@ -10,6 +10,21 @@
                     {{ trans('global.dashboard') }}
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route("admin.students.index") }}" class="nav-link {{ request()->is('admin/students') || request()->is('admin/students/*') ? 'active' : '' }}">
+                <i class="fa-fw fas fa-user nav-icon"></i>
+
+                    </i>
+                    <span>Students List</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route("admin.students.index") }}" class="nav-link {{ request()->is('admin/students') || request()->is('admin/students/*') ? 'active' : '' }}">
+                <i class="fa-fw fas fa-briefcase nav-icon"></i>
+                    </i>
+                    <span>Student Achievement</span>
+                </a>
+            </li>
             @can('users_manage')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
